@@ -20,7 +20,17 @@ import (
 	"github.com/codeallergy/raftpb"
 	"github.com/hashicorp/raft"
 	"google.golang.org/grpc"
+	"reflect"
 )
+
+var RaftGrpcServerClass = reflect.TypeOf((*RaftGrpcServer)(nil)).Elem()
+
+type RaftGrpcServer interface {
+	glue.InitializingBean
+	sprint.Component
+}
+
+var RaftClientPoolClass = reflect.TypeOf((*RaftClientPool)(nil)).Elem()
 
 type RaftClientPool interface {
 	glue.InitializingBean
@@ -42,11 +52,15 @@ type FSMResponse struct {
 	Err      error
 }
 
+var RaftServiceClass = reflect.TypeOf((*RaftService)(nil)).Elem()
+
 type RaftService interface {
 	glue.InitializingBean
 	raft.FSM
 
 }
+
+var RaftServerClass = reflect.TypeOf((*RaftServer)(nil)).Elem()
 
 type RaftServer interface {
 	sprint.Server
